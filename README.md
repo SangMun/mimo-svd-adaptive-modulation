@@ -5,7 +5,7 @@
 - Type: Graduation project (Capstone Design), Dept. of Information and Communication Engineering, Chungbuk National University
 - Period: 2024.09 ~ 2025.11
 - Exhibition: 2025 Capstone Design Graduation Exhibition, Chungbuk National University (2025.11.13)
-- Team: 2 members (이상문, 박준영)
+- Team: 2 members
 - Tool: MATLAB
 
 > The team project was organized and uploaded to this personal repository in 2026.06. The actual project period is shown above.
