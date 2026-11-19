@@ -1,50 +1,60 @@
-# 4x4 MIMO SVD Adaptive Modulation Simulation
+# 4×4 MIMO SVD 기반 적응형 변조 시뮬레이션
 
-## Project Info
+채널 상태에 따라 변조 방식과 전력 할당을 조절하는 4×4 MIMO 통신 시스템을 MATLAB으로 구현했습니다. SVD 기반 적응 변조와 고정 변조 방식의 비트 오류율(BER)과 처리량을 비교합니다.
 
-- Type: Graduation project (Capstone Design), Dept. of Information and Communication Engineering, Chungbuk National University
-- Period: 2024.09 ~ 2025.11
-- Exhibition: 2025 Capstone Design Graduation Exhibition, Chungbuk National University (2025.11.13)
-- Team: 2 members
-- Tool: MATLAB
+## 프로젝트 정보
 
-> The team project was organized and uploaded to this personal repository in 2026.06. The actual project period is shown above.
+- **유형:** 충북대학교 정보통신공학부 캡스톤디자인 졸업작품
+- **기간:** 2024.09 ~ 2025.11
+- **팀 구성:** 2인
+- **담당 역할:** 적응형 변조 방식 설계, MATLAB 시뮬레이션 구현, 성능 분석을 공동으로 진행
+- **출품:** 2025 전자정보대학 캡스톤디자인 졸업작품전시회 (2025.11.13)
+- **사용 도구:** MATLAB, Communications Toolbox
 
-## Project Overview
-This project is a MATLAB-based simulation of a 4x4 MIMO communication system.
-The main goal is to compare fixed modulation schemes and adaptive modulation using SVD-based subchannel decomposition.
+> 팀 프로젝트를 정리해 2026년 6월 개인 저장소에 업로드했습니다. 실제 프로젝트 기간은 위와 같습니다.
 
-## Main Features
-- 4x4 MIMO channel generation
-- SVD-based transmit and receive processing
-- Fixed modulation comparison: BPSK, QPSK, 16QAM, 64QAM
-- Adaptive modulation based on subchannel SINR
-- Water-pouring based power allocation
-- BER and Throughput performance evaluation
+## 구현 내용
 
-## System Flow
-1. Generate 4x4 MIMO channel
-2. Apply SVD decomposition to separate subchannels
-3. Allocate power to each subchannel
-4. Select modulation scheme based on SINR
-5. Transmit and receive symbols
-6. Calculate BER and Throughput
+레이리 페이딩 4×4 MIMO 채널을 생성하고, 채널 행렬을 특잇값 분해(SVD)해 독립적인 부채널로 나눕니다. 각 부채널에 워터푸어링 방식으로 전력을 할당하고, 유효 신호 대 잡음비(SNR)에 따라 BPSK, QPSK, 16-QAM, 64-QAM 중 변조 방식을 선택합니다. 전력 할당이나 신호 조건에 따라 전송하지 않는 부채널도 있습니다.
 
-## Files
-- `main_mimo_svd.m` : Main simulation file
-- `generate_mimo_channel.m` : Generates MIMO channel matrix
-- `adaptive_ctrl_svd.m` : Adaptive modulation control using SVD
-- `water_pouring_on_sinr.m` : Power allocation function
-- `mimo_transmit.m` : Basic MIMO transmission
-- `mimo_transmit_svd.m` : SVD-based MIMO transmission
-- `mimo_receive_mmse.m` : MMSE receiver
-- `mimo_receive_svd.m` : SVD-based receiver
-- `demodulate_and_compare.m` : Demodulation and BER calculation
-- `graycode_gen.m` : Gray code generation
+1. 4×4 MIMO 채널 생성
+2. SVD로 채널을 분해하고 부채널별 전력 이득 계산
+3. 워터푸어링으로 총 전력을 부채널에 배분
+4. 부채널의 유효 SNR에 따라 변조 방식 선택
+5. SVD 기반 송수신과 복조 수행
+6. Eb/N0에 따른 BER과 처리량을 고정 변조 방식과 비교
 
-## Requirements
-- MATLAB
-- Communications Toolbox recommended
+고정 변조 비교군은 BPSK, QPSK, 16-QAM, 64-QAM을 각각 사용하며 MMSE 수신기로 신호를 검출합니다. 적응 변조는 SVD 기반 송수신을 사용합니다.
 
-## Results
-The simulation evaluates BER and throughput performance of fixed and adaptive modulation schemes in a 4x4 MIMO environment.
+## 결과 및 해석
+
+시뮬레이션은 Eb/N0에 따른 BER과 처리량 그래프를 출력합니다. 졸업작품 전시 자료에서는 적응 변조의 처리량이 신호 조건이 좋아질수록 증가했지만, BER이 모든 고정 변조 방식보다 낮지는 않았습니다.
+
+적응 변조와 고정 변조의 수신 구조 및 전력 할당 방식이 다르므로, 그래프의 차이를 변조 방식만의 효과로 단정할 수 없습니다. 처리량은 코드에서 오류 없이 수신한 비트 수를 기반으로 계산한 값입니다.
+
+## 실행 방법
+
+1. MATLAB과 Communications Toolbox를 준비합니다. 변조·복조와 비트 변환에 관련 함수를 사용합니다.
+2. 저장소의 MATLAB 파일을 같은 폴더에 내려받고, MATLAB의 현재 폴더를 해당 폴더로 설정합니다.
+3. 명령 창에서 다음을 실행합니다.
+
+```matlab
+main_mimo_svd
+```
+
+실행이 끝나면 BER과 처리량 비교 그래프가 각각 열립니다. 기본 설정은 Eb/N0 0~30 dB, 5 dB 간격, 조건당 5,000블록입니다. 시뮬레이션은 난수를 사용하므로 실행 결과가 달라질 수 있습니다.
+
+## 주요 파일
+
+| 파일 | 설명 |
+|---|---|
+| `main_mimo_svd.m` | 시뮬레이션 설정, 실행 및 그래프 출력 |
+| `generate_mimo_channel.m` | 레이리 페이딩 MIMO 채널 생성 |
+| `adaptive_ctrl_svd.m` | SVD, 부채널 전력 할당 및 적응 변조 선택 |
+| `water_pouring_on_sinr.m` | 워터푸어링 전력 할당 |
+| `mimo_transmit.m` | 변조 및 기본 MIMO 송신 |
+| `mimo_transmit_svd.m` | SVD 프리코딩을 적용한 송신 |
+| `mimo_receive_mmse.m` | 고정 변조 비교군의 MMSE 수신 |
+| `mimo_receive_svd.m` | 적응 변조의 SVD 기반 수신 |
+| `demodulate_and_compare.m` | 복조, 송수신 비트 비교 및 오류 계산 |
+| `graycode_gen.m` | Gray 코드 생성 |
